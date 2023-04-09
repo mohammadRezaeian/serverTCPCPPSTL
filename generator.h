@@ -2,6 +2,7 @@
 #define GENERATOR_H
 #include <string>
 #include <math.h>
+#include <iostream>
 
 #define PI_NUMBER   3.14
 #define FREQUENCY   0.5
