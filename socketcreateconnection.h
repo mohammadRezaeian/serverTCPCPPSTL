@@ -13,9 +13,12 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+
+#include <algorithm>
+
 #define PORTNUMBER        1234
 #define ADDRESSCONNECTION "127.0.0.1"
-#define SETTIMER          6000
+#define SETTIMER          6000      //microsenod to milisecons it's  6
 #define MAXIMUMCLIENT     1
 
 class socketCreateConnection
@@ -24,7 +27,7 @@ public:
     socketCreateConnection();
     ~socketCreateConnection();
     void createConnection();
-    void sendData(string _value);
+    void sendData(double _value);
 private:
     int       m_socketDecriptor,
               m_socketAccept,

@@ -43,16 +43,21 @@ void socketCreateConnection::createConnection()
         {
             usleep(SETTIMER);
             m_generator.setStatus((_valueToString) == "start" ? true : false);
-            string _value =  m_generator.generateNumber();
+            double _value =  m_generator.generateNumber();
             sendData(_value);
         }
     }
 }
 
-void socketCreateConnection::sendData(string _value)
+void socketCreateConnection::sendData(double _value)
 {
-    const char *cstr = _value.c_str();
-    int resp = send(m_socketAccept,cstr, sizeof(cstr), 0);
+    std::cout << "Numbers: " << _value;
+    char _valueSend[sizeof(double)+2];
+    _valueSend[0] = 72;
+    _valueSend[1] = 105;
+
+    memcpy(&_valueSend[2], &_value, sizeof(double));
+    int resp = send(m_socketAccept, _valueSend, (sizeof(double)+2), 0);
     if ( resp == -1 && errno == EPIPE )
     {
         close(m_socketDecriptor);
