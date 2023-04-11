@@ -5,23 +5,21 @@ Generator::Generator()
 
 }
 
-string Generator::generateNumber()
+double Generator::generateNumber()
 {
     static float _saveInterval = 0;
-    string _generatedNumber;
+    double _generatedNumber;
     if(m_status)
     {
         double _numbers;
-        _numbers = AMPLITUDE * sin(2 * PI_NUMBER * FREQUENCY * (_saveInterval) );
-         cout << "is here\t" << _numbers;
+        _generatedNumber = AMPLITUDE * sin(2 * PI_NUMBER * FREQUENCY * _saveInterval);
         _saveInterval += INTERVAL;
-        _generatedNumber = to_string(_numbers);
     }
     else
     {
         _saveInterval = 0;
         double _numbers = 0;
-        _generatedNumber = to_string(_numbers);
+        _generatedNumber = _numbers;
     }
 
     return _generatedNumber;

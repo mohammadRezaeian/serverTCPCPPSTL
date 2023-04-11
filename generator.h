@@ -17,7 +17,7 @@ public:
     Generator();
     ~Generator();
 
-    string generateNumber();
+    double generateNumber();
 
     void setStatus(bool newStatus);
 
