@@ -1,6 +1,7 @@
 #include "socketcreateconnection.h"
 
-socketCreateConnection::socketCreateConnection()
+socketCreateConnection::socketCreateConnection() :
+    m_status{false}
 {
 
 }
@@ -8,6 +9,8 @@ socketCreateConnection::socketCreateConnection()
 void socketCreateConnection::createConnection()
 {
     m_socketDecriptor = socket(AF_INET , SOCK_STREAM , 0);
+    //    fcntl(m_socketDecriptor, F_SETFL, O_NONBLOCK);
+
     if(m_socketDecriptor == -1)
     {
         cout << "could not create Socket\n";
@@ -29,35 +32,50 @@ void socketCreateConnection::createConnection()
 
     listen(m_socketDecriptor , MAXIMUMCLIENT);
 
-    m_socketAccept = accept(m_socketDecriptor , (struct sockaddr*)&m_server , (socklen_t*) &m_serverSize);
+    m_socketAccept = accept4(m_socketDecriptor , (struct sockaddr*)&m_server , (socklen_t*) &m_serverSize , SOCK_NONBLOCK);
     if(m_socketAccept < 0)
     {
         cout << "cant accept\n";
     }
-
-    read(m_socketAccept , m_readValue , sizeof(m_readValue));
-    string _valueToString = m_readValue;
-    if(!_valueToString.empty())
-    {
-        while(true)
-        {
-            usleep(SETTIMER);
-            m_generator.setStatus((_valueToString) == "start" ? true : false);
-            double _value =  m_generator.generateNumber();
-            sendData(_value);
-        }
-    }
+    readFunction();
 }
+void socketCreateConnection::readFunction()
+{
+    char m_readValue[128] = {0};
+    while(true)
+    {
+        read(m_socketAccept , m_readValue , sizeof(m_readValue));
 
+        switch (m_readValue[0]) {
+        case 'A':
+            m_status = true;
+            break;
+        case 'B':
+            m_status = false;
+            break;
+        default:
+            break;
+        }
+
+        m_generator.setStatus(m_status);
+        double _value =  m_generator.generateNumber();
+        sendData(_value);
+
+        usleep(SETTIMER);
+    }
+
+}
 void socketCreateConnection::sendData(double _value)
 {
-    std::cout << "Numbers: " << _value;
+    std::cout << "_value: " << _value;
     char _valueSend[sizeof(double)+2];
     _valueSend[0] = 72;
     _valueSend[1] = 105;
 
     memcpy(&_valueSend[2], &_value, sizeof(double));
+
     int resp = send(m_socketAccept, _valueSend, (sizeof(double)+2), 0);
+    std::cout << "\nrep: " << resp;
     if ( resp == -1 && errno == EPIPE )
     {
         close(m_socketDecriptor);

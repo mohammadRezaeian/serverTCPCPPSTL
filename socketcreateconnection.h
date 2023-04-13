@@ -12,7 +12,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-
+#include <fcntl.h>
 
 #include <algorithm>
 
@@ -27,7 +27,9 @@ public:
     socketCreateConnection();
     ~socketCreateConnection();
     void createConnection();
+    void readFunction();
     void sendData(double _value);
+
 private:
     int       m_socketDecriptor,
               m_socketAccept,
@@ -35,8 +37,11 @@ private:
     struct    sockaddr_in m_server;
     int       m_serverSize = sizeof(m_server);
     int       m_opt{1};
-    char      m_readValue[1024] ={0};
+//    char      m_readValue[1024] ={0};
+    bool m_status;
     Generator m_generator;
+    bool      m_startCheckLoop = true;
+    bool      m_startCheckSend = false;
 };
 
 #endif // SOCKETCREATECONNECTION_H
