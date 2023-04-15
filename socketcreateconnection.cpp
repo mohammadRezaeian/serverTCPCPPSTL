@@ -56,11 +56,18 @@ void socketCreateConnection::readFunction()
         default:
             break;
         }
-
-        m_generator.setStatus(m_status);
-        double _value =  m_generator.generateNumber();
-        sendData(_value);
-
+        if(m_status && m_readValue[0] == 'A')
+        {
+            m_generator.setStatus(m_status);
+            double _value =  m_generator.generateNumber();
+            sendData(_value);
+        }
+        else if(!m_status && m_readValue[0] =='B')
+        {
+            m_generator.setStatus(m_status);
+            double _value =  m_generator.generateNumber();
+            sendData(_value);
+        }
         usleep(SETTIMER);
     }
 

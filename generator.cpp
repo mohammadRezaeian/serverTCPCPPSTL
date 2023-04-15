@@ -11,7 +11,7 @@ double Generator::generateNumber()
     double _generatedNumber;
     if(m_status)
     {
-        _generatedNumber = AMPLITUDE * sin(2 * PI_NUMBER * FREQUENCY * _saveInterval);
+        _generatedNumber = AMPLITUDE * sin(2 * PI_NUMBER * FREQUENCY * _saveInterval) + AMPLITUDE ;
         _saveInterval += INTERVAL;
     }
     else

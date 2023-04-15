@@ -7,7 +7,7 @@
 #define PI_NUMBER   3.14
 #define FREQUENCY   0.5
 #define INTERVAL    0.00555
-#define AMPLITUDE   4
+#define AMPLITUDE   2
 
 using namespace std;
 
