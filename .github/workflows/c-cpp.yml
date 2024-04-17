@@ -1,16 +1,12 @@
 name: C/C++ CI
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: install Packages
@@ -19,3 +15,5 @@ jobs:
       run: qmake
     - name: make
       run: make
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v4.1.4
