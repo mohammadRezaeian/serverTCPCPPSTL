@@ -15,7 +15,7 @@ jobs:
       run: qmake
     - name: make
       run: make
-    - name: Create Artifact
+    - name: Create Artifactf
       uses: actions/upload-artifact@v4
       with:
         name: release
