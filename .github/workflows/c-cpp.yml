@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: install Packages
-      run: sudo apt update -y ; sudo apt -y install qt5-qmake
+      run: sudo apt update -y ; sudo apt -y install qt5-qmake qtbase5-dev
     - name: qmake-qt5
       run: qmake-qt5
     - name: make
