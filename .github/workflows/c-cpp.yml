@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: install Packages
+      run: apt update -y ; apt -y install qt5-qmake
     - name: qmake-qt5
       run: qmake-qt5
     - name: make
